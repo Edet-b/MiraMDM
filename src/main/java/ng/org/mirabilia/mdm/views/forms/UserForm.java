@@ -15,12 +15,13 @@ import ng.org.mirabilia.mdm.domain.entities.User;
 import ng.org.mirabilia.mdm.domain.enums.Role;
 import ng.org.mirabilia.mdm.domain.enums.UserStoreDomain;
 import ng.org.mirabilia.mdm.repositories.UserRepository;
-import ng.org.mirabilia.mdm.service.UserService;
-import ng.org.mirabilia.mdm.views.UserView;
+import ng.org.mirabilia.mdm.services.UserService;
+import ng.org.mirabilia.mdm.views.user.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Consumer;
 
 public class UserForm extends VerticalLayout {
 
@@ -35,12 +36,14 @@ public class UserForm extends VerticalLayout {
     private Button saveUserButton;
     private FormLayout userFormLayout;
     UserRepository userRepository;
+    private final Consumer<Void> onSuccess;
 
     @Autowired
-    public UserForm(UserService userService, UserRepository userRepository){
+    public UserForm(UserService userService, UserRepository userRepository, Consumer<Void> onSuccess){
 
         this.userService = userService;
         this.userRepository = userRepository;
+        this.onSuccess = onSuccess;
 
         H2 addUser = new H2("Add User");
         userNotificationText = new Text("Please note that * represents required field of data");
@@ -124,8 +127,8 @@ public class UserForm extends VerticalLayout {
         Notification.show("Username: " + userName + ",  Password: " + generatedUserPassword(),
                        5000, Notification.Position.MIDDLE)
                 .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-
-        saveUserButton.addClickListener(clickEvent -> UI.getCurrent().navigate(UserView.class));
+        saveUserButton.addClickListener(e -> UI.getCurrent().navigate(UserView.class));
+        onSuccess.accept(null);
     }
 
 
@@ -174,9 +177,6 @@ public class UserForm extends VerticalLayout {
 
         return new String(passwordArray);
     }
-
-
-
 }
 
 

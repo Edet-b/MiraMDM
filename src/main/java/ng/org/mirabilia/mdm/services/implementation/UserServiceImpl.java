@@ -1,9 +1,9 @@
-package ng.org.mirabilia.mdm.service.Implementation;
+package ng.org.mirabilia.mdm.services.implementation;
 
 import jakarta.transaction.Transactional;
 import ng.org.mirabilia.mdm.domain.entities.User;
 import ng.org.mirabilia.mdm.repositories.UserRepository;
-import ng.org.mirabilia.mdm.service.UserService;
+import ng.org.mirabilia.mdm.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,13 +42,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserWithPassword(User user) {
-        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+       if (user.getPassword() != null && !user.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         } else {
             user.setPassword(userRepository.findById(user.getId())
                     .map(User::getPassword)
                     .orElseThrow(() -> new IllegalArgumentException("User not found")));
-        }
+       }
         userRepository.save(user);
     }
 

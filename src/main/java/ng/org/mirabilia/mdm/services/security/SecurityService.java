@@ -1,4 +1,4 @@
-package ng.org.mirabilia.mdm.service.security;
+package ng.org.mirabilia.mdm.services.security;
 
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import org.springframework.stereotype.Component;

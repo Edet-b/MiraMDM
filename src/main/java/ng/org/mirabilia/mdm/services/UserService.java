@@ -1,4 +1,4 @@
-package ng.org.mirabilia.mdm.service;
+package ng.org.mirabilia.mdm.services;
 
 
 import ng.org.mirabilia.mdm.domain.entities.User;
